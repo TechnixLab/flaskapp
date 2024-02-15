@@ -1,5 +1,10 @@
 version: 0.2
 
+env:
+  parameter-store:
+    DOCKER_HUB_USERNAME: "flaskapp-docker-credentials-username"
+    DOCKER_HUB_PASSWORD: "flaskapp-docker-credentials-password"
+    DOCKER_HUB_URL: "flaskapp-docker-registry-url"
         
 phases:
   install:  
@@ -12,8 +17,9 @@ phases:
   build:
     commands:
       - echo "Building Docker Image"
-      - docker build -t flask-app .
-      - docker push
+      - docker login -u "$DOCKER_HUB_USERNAME" -p "$DOCKER_HUB_PASSWORD" "$DOCKER_HUB_URL"
+      - docker build -t "$DOCKER_HUB_URL/$DOCKER_HUB_USERNAME/flaskapp:latest" .
+      - docker push "$DOCKER_HUB_URL/$DOCKER_HUB_USERNAME/flaskapp:latest"
   post_build:
     commands:
       - echo "Build is successful"
