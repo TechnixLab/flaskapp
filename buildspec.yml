@@ -9,7 +9,7 @@ env:
 phases:
   install:  
     runtime-versions:
-      runtime: python:3.8
+      runtime: python: 3.8
   pre_build:
     commands:
       - echo "Installing dependencies (Flask)"
